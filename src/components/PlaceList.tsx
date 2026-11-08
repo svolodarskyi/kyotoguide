@@ -28,7 +28,7 @@ export function PlaceList({ places, selectedId, shortlist, onSelect, onCollapse,
 
   if (places.length === 0) {
     return (
-      <div className="empty">
+      <div className="list empty">
         <p>No places match these filters.</p>
         <button type="button" className="btn" onClick={onClear}>Clear filters</button>
       </div>

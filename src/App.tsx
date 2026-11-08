@@ -29,7 +29,7 @@ export function App() {
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [shortlist, setShortlist] = useState<Set<number>>(() => loadShortlist());
   const [theme, setTheme] = useState<Theme>(loadTheme);
-  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [filtersOpen, setFiltersOpen] = useState(() => window.matchMedia?.("(min-width: 900px)").matches ?? false);
   const [copied, setCopied] = useState<boolean | null>(null);
   const scrollOnSelect = useRef(false);
 
@@ -66,7 +66,7 @@ export function App() {
   // Marker click scrolls the list to the card.
   useEffect(() => {
     if (selectedId !== null && scrollOnSelect.current) {
-      document.getElementById(`card-${selectedId}`)?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      document.getElementById(`card-${selectedId}`)?.scrollIntoView({ block: "start", behavior: "smooth" });
     }
     scrollOnSelect.current = false;
   }, [selectedId]);

@@ -1,0 +1,340 @@
+{
+  "types": [
+    {
+      "name": "Kissaten",
+      "colorLight": "#A8452F",
+      "colorDark": "#E28570",
+      "count": 5
+    },
+    {
+      "name": "Specialty coffee",
+      "colorLight": "#2F4A8C",
+      "colorDark": "#8FA6E8",
+      "count": 7
+    },
+    {
+      "name": "Garden café",
+      "colorLight": "#3F7A4A",
+      "colorDark": "#7CC48C",
+      "count": 2
+    },
+    {
+      "name": "Café + shop",
+      "colorLight": "#A8741B",
+      "colorDark": "#E2B45E",
+      "count": 2
+    },
+    {
+      "name": "Tea & sweets",
+      "colorLight": "#7A3F8C",
+      "colorDark": "#C69AE0",
+      "count": 13
+    },
+    {
+      "name": "Eating & drinking",
+      "colorLight": "#1F7A7A",
+      "colorDark": "#6CC4C4",
+      "count": 25
+    },
+    {
+      "name": "Temples & shrines",
+      "colorLight": "#4F6275",
+      "colorDark": "#A9BFD6",
+      "count": 20
+    },
+    {
+      "name": "Gardens & culture",
+      "colorLight": "#7D7A1C",
+      "colorDark": "#CCCB6A",
+      "count": 5
+    }
+  ],
+  "bookSections": [
+    {
+      "name": "Coffee & kissaten",
+      "idRange": [
+        1,
+        12
+      ],
+      "sourcePdf": "cafe_kissaten.pdf"
+    },
+    {
+      "name": "Tea & sweets",
+      "idRange": [
+        13,
+        25
+      ],
+      "sourcePdf": "tea_sweets.pdf"
+    },
+    {
+      "name": "Eating & drinking",
+      "idRange": [
+        26,
+        49
+      ],
+      "sourcePdf": "eating_drinking.pdf"
+    },
+    {
+      "name": "For early risers",
+      "idRange": [
+        50,
+        59
+      ],
+      "sourcePdf": "for_early_risers.pdf"
+    },
+    {
+      "name": "Temples & gardens",
+      "idRange": [
+        60,
+        68
+      ],
+      "sourcePdf": "gardens_temples.pdf"
+    },
+    {
+      "name": "Mindful experiences",
+      "idRange": [
+        69,
+        79
+      ],
+      "sourcePdf": "mindful_experiences.pdf + mimdful_experiences_1.pdf"
+    }
+  ],
+  "areas": [
+    {
+      "name": "Kyoto Station",
+      "count": 10
+    },
+    {
+      "name": "Gojo",
+      "count": 2
+    },
+    {
+      "name": "Shijo",
+      "count": 18
+    },
+    {
+      "name": "Teramachi",
+      "count": 1
+    },
+    {
+      "name": "Gion",
+      "count": 2
+    },
+    {
+      "name": "South Higashiyama",
+      "count": 6
+    },
+    {
+      "name": "North Higashiyama",
+      "count": 8
+    },
+    {
+      "name": "Imperial Palace",
+      "count": 7
+    },
+    {
+      "name": "Nijo Castle",
+      "count": 4
+    },
+    {
+      "name": "Nishijin",
+      "count": 1
+    },
+    {
+      "name": "Demachiyanagi",
+      "count": 1
+    },
+    {
+      "name": "North Kyoto",
+      "count": 11
+    },
+    {
+      "name": "Arashiyama",
+      "count": 8
+    }
+  ],
+  "tags": [
+    {
+      "name": "Matcha",
+      "count": 15
+    },
+    {
+      "name": "Garden view",
+      "count": 12
+    },
+    {
+      "name": "Pour-over",
+      "count": 6
+    },
+    {
+      "name": "Buy beans",
+      "count": 7
+    },
+    {
+      "name": "Toast & sandwiches",
+      "count": 8
+    },
+    {
+      "name": "Sweets",
+      "count": 25
+    },
+    {
+      "name": "Bakery",
+      "count": 1
+    },
+    {
+      "name": "Takeaway",
+      "count": 4
+    },
+    {
+      "name": "Shop / merch",
+      "count": 14
+    },
+    {
+      "name": "Retro interior",
+      "count": 10
+    },
+    {
+      "name": "Breakfast",
+      "count": 4
+    },
+    {
+      "name": "Tea tasting",
+      "count": 8
+    },
+    {
+      "name": "Wagashi",
+      "count": 8
+    },
+    {
+      "name": "Noodles",
+      "count": 6
+    },
+    {
+      "name": "Vegan / plant-based",
+      "count": 4
+    },
+    {
+      "name": "Izakaya & bar",
+      "count": 5
+    },
+    {
+      "name": "Tofu & obanzai",
+      "count": 4
+    },
+    {
+      "name": "Sushi",
+      "count": 2
+    },
+    {
+      "name": "Tempura",
+      "count": 2
+    },
+    {
+      "name": "Grilled",
+      "count": 2
+    },
+    {
+      "name": "Pizza",
+      "count": 2
+    },
+    {
+      "name": "Market",
+      "count": 1
+    },
+    {
+      "name": "Autumn colours",
+      "count": 11
+    },
+    {
+      "name": "Cherry blossoms",
+      "count": 6
+    },
+    {
+      "name": "Zen garden",
+      "count": 6
+    },
+    {
+      "name": "Pond garden",
+      "count": 6
+    },
+    {
+      "name": "Moss",
+      "count": 3
+    },
+    {
+      "name": "Bamboo",
+      "count": 3
+    },
+    {
+      "name": "Teahouse",
+      "count": 4
+    },
+    {
+      "name": "Views",
+      "count": 3
+    },
+    {
+      "name": "Meditation",
+      "count": 4
+    },
+    {
+      "name": "Flea market",
+      "count": 2
+    },
+    {
+      "name": "Reservations",
+      "count": 3
+    },
+    {
+      "name": "UNESCO",
+      "count": 2
+    }
+  ],
+  "priceTiers": [
+    {
+      "value": 0,
+      "label": "Free"
+    },
+    {
+      "value": 1,
+      "label": "¥"
+    },
+    {
+      "value": 2,
+      "label": "¥¥"
+    },
+    {
+      "value": 3,
+      "label": "¥¥¥"
+    }
+  ],
+  "hoursConflict": [
+    {
+      "value": 0,
+      "label": "Book and Google agree or Google has no hours"
+    },
+    {
+      "value": 1,
+      "label": "Slightly different"
+    },
+    {
+      "value": 2,
+      "label": "Conflict: different days or hours"
+    }
+  ],
+  "flags": [
+    {
+      "key": "opensLate",
+      "label": "Open till 10pm"
+    },
+    {
+      "key": "opensByNineAm",
+      "label": "Opens by 9am"
+    },
+    {
+      "key": "shortlist",
+      "label": "Shortlist (per-user, client-side)"
+    }
+  ]
+}

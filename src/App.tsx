@@ -92,7 +92,7 @@ export function App() {
 
   return (
     <div className="app">
-      <div className="side">
+      <div className={"side" + (filtersOpen ? " filters-open" : "")}>
         <header className="header">
           <h1>Kyoto places</h1>
           <button type="button" className="btn small" onClick={() => setTheme(THEMES[(THEMES.indexOf(theme) + 1) % 3])} aria-label={`Theme: ${theme}. Click to change.`}>

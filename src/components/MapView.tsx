@@ -49,12 +49,21 @@ export function MapView({ places, visibleIds, selectedId, onSelect }: Props) {
     if (n) mp.fitBounds(b, { padding: 56, maxZoom: 15, duration: 600 });
   };
 
-  // Create the map and markers once.
+  // The map is created once and stays mounted.
   useEffect(() => {
     const mp = new maplibregl.Map({ container: box.current!, style: STYLE, center: [135.76, 35.01], zoom: 11.5, attributionControl: { compact: true } });
     mp.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
     map.current = mp;
-    for (const p of placesRef.current) {
+    return () => { mp.remove(); map.current = null; markers.current.clear(); };
+  }, []);
+
+  // Markers follow the places list (it changes when the database data arrives or a place is added).
+  useEffect(() => {
+    const mp = map.current;
+    if (!mp) return;
+    markers.current.forEach(({ m }) => m.remove());
+    markers.current.clear();
+    for (const p of places) {
       const el = document.createElement("button");
       el.type = "button";
       el.className = "pin";
@@ -65,14 +74,13 @@ export function MapView({ places, visibleIds, selectedId, onSelect }: Props) {
       const m = new maplibregl.Marker({ element: el }).setLngLat([p.lng, p.lat]).addTo(mp);
       markers.current.set(p.id, { m, el });
     }
-    return () => { mp.remove(); map.current = null; markers.current.clear(); };
-  }, []);
+  }, [places]);
 
   // Show only visible markers and fit to them on every filter change.
   useEffect(() => {
     markers.current.forEach(({ el }, id) => { el.style.display = visibleIds.has(id) ? "" : "none"; });
     fit(visibleIds);
-  }, [visibleIds]);
+  }, [visibleIds, places]);
 
   // Selected marker: bigger with halo; pan/zoom to it.
   useEffect(() => {
@@ -80,9 +88,15 @@ export function MapView({ places, visibleIds, selectedId, onSelect }: Props) {
       el.classList.toggle("selected", id === selectedId);
       el.style.zIndex = id === selectedId ? "10" : "";
     });
-    const p = places.find((x) => x.id === selectedId);
-    if (p && map.current) map.current.easeTo({ center: [p.lng, p.lat], zoom: Math.max(map.current.getZoom(), 14), duration: 500 });
   }, [selectedId, places]);
+  useEffect(() => {
+    const p = placesRef.current.find((x) => x.id === selectedId);
+    if (p && map.current) {
+      // On small screens the info card covers the bottom of the map, so keep the pin above it.
+      const small = window.matchMedia("(max-width: 899px)").matches;
+      map.current.easeTo({ center: [p.lng, p.lat], zoom: Math.max(map.current.getZoom(), 14), padding: { top: 0, left: 0, right: 0, bottom: small ? 150 : 0 }, duration: 500 });
+    }
+  }, [selectedId]);
 
   return (
     <div className="map-wrap">

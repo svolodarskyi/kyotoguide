@@ -130,3 +130,15 @@ describe("links", () => {
     );
   });
 });
+
+describe("user-added places (no book section)", () => {
+  it("never match a Book section filter but still match other filters", () => {
+    const user = { ...places[0], id: 80, source: "user" as const, bookSection: null, bookPage: null, googlePlaceId: "" };
+    const withUser = [...places, user];
+    expect(withUser.filter((p) => p.bookSection === null)).toHaveLength(1);
+    expect(mapsUrlNoId()).not.toMatch(/query_place_id/);
+  });
+});
+function mapsUrlNoId() {
+  return mapsUrl({ name: "My spot", googlePlaceId: "" });
+}

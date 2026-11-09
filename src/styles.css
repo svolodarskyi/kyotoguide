@@ -42,7 +42,13 @@ html[data-theme="dark"] .maplibregl-canvas { filter: invert(1) hue-rotate(180deg
 .pin.maplibregl-marker { position: absolute; top: 0; left: 0; }
 .pin.selected { width: 36px; height: 36px; line-height: 32px; font-size: 13px; box-shadow: 0 0 0 4px color-mix(in srgb, var(--pin) 35%, transparent), 0 2px 8px rgba(0,0,0,.5); }
 .peek { position: absolute; left: 8px; right: 8px; bottom: 8px; z-index: 3; display: flex; gap: 10px; align-items: center; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; }
-.peek > span:nth-child(2) { flex: 1; min-width: 0; }
+.peek { align-items: flex-start; box-shadow: 0 4px 16px rgba(0,0,0,.25); animation: peek-in .15s ease-out; }
+.peek-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.peek-body small { color: var(--muted); }
+.peek-warn { color: var(--warn-text) !important; }
+.peek-actions { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
+@keyframes peek-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .peek { animation: none; } }
 
 .controls { position: relative; z-index: 5; flex: none; padding: 8px 0 4px; background: var(--bg); border-bottom: 1px solid var(--border); }
 .search { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); }
@@ -115,7 +121,7 @@ dd { margin: 0; overflow-wrap: anywhere; }
   .side { display: grid; grid-template-columns: minmax(380px, 460px) 1fr; grid-template-rows: auto auto minmax(0, 1fr); column-gap: 24px; }
   .header, .controls, .list { grid-column: 1; }
   .mapcol { grid-column: 2; grid-row: 1 / span 3; height: 100%; min-height: 0; margin: 0; }
-  .peek { display: none; }
+  .peek { right: auto; left: 12px; bottom: 32px; width: min(380px, calc(100% - 24px)); }
   .filters-wrap.open { max-height: 36vh; max-height: 36dvh; }
 }
 

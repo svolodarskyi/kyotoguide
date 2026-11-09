@@ -18,7 +18,7 @@ export function validateData(places: Place[], tax: Taxonomy): string[] {
     if (!areas.has(p.area)) errs.push(`${at}: unknown area "${p.area}"`);
     for (const t of p.tags) if (!tags.has(t)) errs.push(`${at}: unknown tag "${t}"`);
     if (new Set(p.tags).size !== p.tags.length) errs.push(`${at}: duplicate tags`);
-    const s = sections.get(p.bookSection);
+    const s = p.bookSection ? sections.get(p.bookSection) : undefined;
     if (!s) errs.push(`${at}: unknown bookSection "${p.bookSection}"`);
     else if (p.id < s.idRange[0] || p.id > s.idRange[1])
       errs.push(`${at}: id outside range of section "${s.name}"`);

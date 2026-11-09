@@ -8,8 +8,9 @@ export type BookSection =
 
 export interface Place {
   id: number;
-  bookPage: number;
-  bookSection: BookSection;
+  /** null for places you add yourself. */
+  bookPage: number | null;
+  bookSection: BookSection | null;
   name: string;
   nameJp: string | null;
   area: string;
@@ -17,7 +18,10 @@ export interface Place {
   priceTier: 0 | 1 | 2 | 3;
   lat: number;
   lng: number;
+  /** May be empty for places you add yourself. */
   googlePlaceId: string;
+  /** 'book' = from the guidebook, 'user' = added through the app. */
+  source?: "book" | "user";
   address: string;
   station: string;
   hoursBook: string;

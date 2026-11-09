@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { places, typeColor } from "./data";
+import { places as bundledPlaces, typeColor } from "./data";
+import { fetchPlaces } from "./lib/api";
 import { FilterPanel } from "./components/FilterPanel";
 import { MapView } from "./components/MapView";
 import { PlaceList } from "./components/PlaceList";
@@ -8,7 +9,7 @@ import { tokenize } from "./lib/normalize";
 import { copyText, shortlistText } from "./lib/links";
 import { loadShortlist, saveShortlist } from "./lib/shortlist";
 import { fromSearch, toSearch } from "./lib/urlState";
-import type { Filters } from "./types";
+import type { Filters, Place } from "./types";
 
 type Theme = "auto" | "light" | "dark";
 const THEMES: Theme[] = ["auto", "light", "dark"];
@@ -24,6 +25,8 @@ function loadTheme(): Theme {
 
 export function App() {
   const initial = useMemo(() => fromSearch(window.location.search), []);
+  // Starts from the bundled data so the first paint is instant, then switches to the database.
+  const [places, setPlaces] = useState<Place[]>(bundledPlaces);
   const [filters, setFilters] = useState<Filters>(initial.filters);
   const [query, setQuery] = useState(initial.query);
   const [selectedId, setSelectedId] = useState<number | null>(null);
@@ -34,13 +37,22 @@ export function App() {
   const scrollOnSelect = useRef(false);
 
   // Search index built once.
-  const index = useMemo(() => new Map(places.map((p) => [p.id, buildIndex(p)])), []);
+  const index = useMemo(() => new Map(places.map((p) => [p.id, buildIndex(p)])), [places]);
 
   const visible = useMemo(() => {
     const tokens = tokenize(query);
     return places.filter((p) => match(p, filters, tokens, index.get(p.id)!, shortlist));
-  }, [filters, query, shortlist, index]);
+  }, [places, filters, query, shortlist, index]);
   const visibleIds = useMemo(() => new Set(visible.map((p) => p.id)), [visible]);
+
+  // Load from Supabase when configured; on any failure keep showing the bundled data.
+  useEffect(() => {
+    let cancelled = false;
+    fetchPlaces()
+      .then((rows) => { if (!cancelled && rows && rows.length) setPlaces(rows); })
+      .catch((e) => console.warn("Could not load places from the database; using bundled data.", e));
+    return () => { cancelled = true; };
+  }, []);
 
   // Theme: data-theme attribute; "auto" follows prefers-color-scheme.
   useEffect(() => {
@@ -128,7 +140,7 @@ export function App() {
             <button type="button" className="link" onClick={clear} disabled={!active}>Clear</button>
           </div>
           <div id="filters" className={"filters-wrap" + (filtersOpen ? " open" : "")}>
-            <FilterPanel filters={filters} onChange={setFilters} shortlistSize={shortlist.size} />
+            <FilterPanel places={places} filters={filters} onChange={setFilters} shortlistSize={shortlist.size} />
           </div>
           {shortlist.size > 0 && (
             <div className="shortlist-bar">

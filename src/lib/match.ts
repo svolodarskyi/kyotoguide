@@ -54,7 +54,7 @@ export function match(
   shortlist: ReadonlySet<number>,
 ): boolean {
   if (f.area.size && !f.area.has(p.area)) return false;
-  if (f.bookSection.size && !f.bookSection.has(p.bookSection)) return false;
+  if (f.bookSection.size && !(p.bookSection && f.bookSection.has(p.bookSection))) return false;
   if (f.type.size && !f.type.has(p.type)) return false;
   if (f.price.size && !f.price.has(p.priceTier)) return false;
   for (const t of f.tags) if (!p.tags.includes(t)) return false;

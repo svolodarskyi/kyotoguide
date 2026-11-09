@@ -1,11 +1,12 @@
 import { useMemo } from "react";
-import { places, taxonomy, typeColor } from "../data";
+import { taxonomy, typeColor } from "../data";
 import { countBy } from "../lib/match";
 import { priceLabel } from "../lib/links";
-import type { Filters } from "../types";
+import type { Filters, Place } from "../types";
 import { ChipGroup } from "./ChipGroup";
 
 interface Props {
+  places: Place[];
   filters: Filters;
   onChange: (f: Filters) => void;
   shortlistSize: number;
@@ -17,7 +18,7 @@ function toggled<T>(s: ReadonlySet<T>, v: T): Set<T> {
   return n;
 }
 
-export function FilterPanel({ filters: f, onChange, shortlistSize }: Props) {
+export function FilterPanel({ places, filters: f, onChange, shortlistSize }: Props) {
   const counts = useMemo(
     () => ({
       area: countBy(places, (p) => [p.area]),
@@ -26,7 +27,7 @@ export function FilterPanel({ filters: f, onChange, shortlistSize }: Props) {
       price: countBy(places, (p) => [p.priceTier]),
       tag: countBy(places, (p) => p.tags),
     }),
-    [],
+    [places],
   );
   const n = (m: Map<any, number>, k: any) => m.get(k) ?? 0;
 

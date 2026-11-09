@@ -1,12 +1,8 @@
 import type { Place } from "../types";
 
 export function mapsUrl(p: Pick<Place, "name" | "googlePlaceId">): string {
-  return (
-    "https://www.google.com/maps/search/?api=1&query=" +
-    encodeURIComponent(`${p.name} Kyoto`) +
-    "&query_place_id=" +
-    encodeURIComponent(p.googlePlaceId)
-  );
+  const url = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(`${p.name} Kyoto`);
+  return p.googlePlaceId ? url + "&query_place_id=" + encodeURIComponent(p.googlePlaceId) : url;
 }
 
 export function priceLabel(tier: number): string {

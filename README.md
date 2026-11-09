@@ -11,9 +11,13 @@ npm test           # unit tests: match(), normaliser, validator, URL state, shor
 npm run build      # typecheck + production build
 ```
 
+## Data
+Places live in Supabase (`kyoto_places`) and are bundled as a fallback in `src/data/places.json`. See `docs/BACKEND.md`. Copy `.env.example` to `.env.local` to use the database locally.
+
 ## Layout
 - `src/lib/` – pure logic: `match.ts` (OR within group, AND across groups, AND for tags, AND for search tokens), `normalize.ts`, `validate.ts` (schema/taxonomy/bounds/id checks), `urlState.ts`, `shortlist.ts`, `links.ts`
 - `src/components/` – `FilterPanel`/`ChipGroup`, `PlaceList`/`PlaceCard`, `MapView`
+- `supabase/migrations/` – the database schema and security rules
 - `src/data/` – `places.json`, `taxonomy.json` (controlled vocabularies and type colours)
 - `docs/SPEC.md` – full spec (behaviour, extraction prompts, known data issues, how to add pages)
 - `docs/prototype/` – original single-file prototype (behaviour reference only)

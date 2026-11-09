@@ -69,7 +69,7 @@ export function PlaceCard({ place: p, expanded, starred, onSelect, onCollapse, o
             <dt>Address</dt><dd>{p.address}</dd>
             {p.phone && (<><dt>Phone</dt><dd><a href={`tel:${p.phone.replace(/-/g, "")}`}>{p.phone}</a></dd></>)}
             {p.hoursGoogle && (<><dt>Google hours</dt><dd>{p.hoursGoogle}</dd></>)}
-            <dt>Book</dt><dd>{p.bookSection}, p. {p.bookPage}</dd>
+            {p.bookSection && (<><dt>Book</dt><dd>{p.bookSection}{p.bookPage ? `, p. ${p.bookPage}` : ""}</dd></>)}
           </dl>
           <div className="actions">
             <a className="btn primary" href={mapsUrl(p)} target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
@@ -89,7 +89,7 @@ export function PlaceCard({ place: p, expanded, starred, onSelect, onCollapse, o
               </button>
               {showOriginal && (
                 <div className="original-body">
-                  <h4>The book, p. {p.bookPage}</h4>
+                  <h4>The book{p.bookPage ? `, p. ${p.bookPage}` : ""}</h4>
                   {p.bookTagline && <p><strong><em>{p.bookTagline}</em></strong></p>}
                   {p.bookText && <p>{p.bookText}</p>}
                   <p className="small">Text is OCR and may contain typos.</p>

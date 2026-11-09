@@ -91,7 +91,11 @@ export function MapView({ places, visibleIds, selectedId, onSelect }: Props) {
   }, [selectedId, places]);
   useEffect(() => {
     const p = placesRef.current.find((x) => x.id === selectedId);
-    if (p && map.current) map.current.easeTo({ center: [p.lng, p.lat], zoom: Math.max(map.current.getZoom(), 14), duration: 500 });
+    if (p && map.current) {
+      // On small screens the info card covers the bottom of the map, so keep the pin above it.
+      const small = window.matchMedia("(max-width: 899px)").matches;
+      map.current.easeTo({ center: [p.lng, p.lat], zoom: Math.max(map.current.getZoom(), 14), padding: { top: 0, left: 0, right: 0, bottom: small ? 150 : 0 }, duration: 500 });
+    }
   }, [selectedId]);
 
   return (

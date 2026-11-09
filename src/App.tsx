@@ -6,7 +6,7 @@ import { MapView } from "./components/MapView";
 import { PlaceList } from "./components/PlaceList";
 import { buildIndex, emptyFilters, hasActiveFilters, match } from "./lib/match";
 import { tokenize } from "./lib/normalize";
-import { copyText, shortlistText } from "./lib/links";
+import { copyText, mapsUrl, priceLabel, shortlistText } from "./lib/links";
 import { loadShortlist, saveShortlist } from "./lib/shortlist";
 import { fromSearch, toSearch } from "./lib/urlState";
 import type { Filters, Place } from "./types";
@@ -35,6 +35,8 @@ export function App() {
   const [filtersOpen, setFiltersOpen] = useState(() => window.matchMedia?.("(min-width: 900px)").matches ?? false);
   const [copied, setCopied] = useState<boolean | null>(null);
   const scrollOnSelect = useRef(false);
+  // Bumped on every pin tap so tapping the already-selected pin brings its card back again.
+  const [mapPick, setMapPick] = useState(0);
 
   // Search index built once.
   const index = useMemo(() => new Map(places.map((p) => [p.id, buildIndex(p)])), [places]);
@@ -81,9 +83,9 @@ export function App() {
       document.getElementById(`card-${selectedId}`)?.scrollIntoView({ block: "start", behavior: "smooth" });
     }
     scrollOnSelect.current = false;
-  }, [selectedId]);
+  }, [selectedId, mapPick]);
 
-  const selectFromMap = useCallback((id: number) => { scrollOnSelect.current = true; setSelectedId(id); }, []);
+  const selectFromMap = useCallback((id: number) => { scrollOnSelect.current = true; setSelectedId(id); setMapPick((n) => n + 1); }, []);
   const selectFromList = useCallback((id: number) => setSelectedId(id), []);
   const collapse = useCallback(() => setSelectedId(null), []);
   const toggleStar = useCallback((id: number) => setShortlist((s) => {
@@ -115,9 +117,21 @@ export function App() {
         <div className="mapcol mobile-map">
           <MapView places={places} visibleIds={visibleIds} selectedId={selectedId} onSelect={selectFromMap} />
           {selected && (
-            <div className="peek">
+            <div className="peek" key={`${selected.id}-${mapPick}`} role="dialog" aria-label={`${selected.name} details`}>
               <span className="badge" style={{ background: typeColor(selected.type) }}>{selected.id}</span>
-              <span><strong>{selected.name}</strong><br /><small>{selected.type} · {selected.area}</small></span>
+              <div className="peek-body">
+                <strong className="peek-name">{selected.name}{selected.nameJp && <span className="jp"> {selected.nameJp}</span>}</strong>
+                <small>{selected.type} · {selected.area} · {priceLabel(selected.priceTier)}</small>
+                <small>
+                  {selected.hoursBook}
+                  {selected.closedDaysBook && <> · <strong>Closed {selected.closedDaysBook}</strong></>}
+                </small>
+                {selected.hoursConflict === 2 && <small className="peek-warn">⚠ Google lists different hours. Check before you go.</small>}
+                <span className="peek-actions">
+                  <a className="btn small primary" href={mapsUrl(selected)} target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
+                  <button type="button" className="btn small" onClick={() => document.getElementById(`card-${selected.id}`)?.scrollIntoView({ block: "start", behavior: "smooth" })}>Details</button>
+                </span>
+              </div>
               <button type="button" className="btn small" onClick={collapse} aria-label="Close">✕</button>
             </div>
           )}
